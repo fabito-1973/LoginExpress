@@ -12,15 +12,18 @@ const registro = require('./registro');
 const { obtenerUsuarios, eliminarUsuario } = require('./usuarios');
 const validar = require('./validar');
 
-
-
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: process.env.URLFRONTEND || 'http://localhost:5173',
     credentials: true,
 }))
-app.use(session({
-    secret: "djudhhfttcbbcb",
 
+app.use(session({
+    secret: process.env.SECRETSESSION ||"djudhhfttcbbcb",
+    proxy: process.env.NODE_ENV === 'production',
+cookie: { 
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'none'
+ },
 }))
 
 
